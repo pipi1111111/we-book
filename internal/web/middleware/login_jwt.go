@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
@@ -30,18 +29,15 @@ func (lm *LoginJWTMiddlewareBuilder) CheckLogin() gin.HandlerFunc {
 			return ijwt.JWTKey, nil
 		})
 		if err != nil {
-			fmt.Println(1)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
 		if token == nil || !token.Valid {
-			fmt.Println(2)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
 		err = lm.CheckSession(ctx, uc.Ssid)
 		if err != nil {
-			fmt.Println(3)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
